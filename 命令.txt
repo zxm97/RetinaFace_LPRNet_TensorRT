@@ -1,0 +1,28 @@
+修改训练的参数配置文件lpr.yml，一般修改保存路径、train和test数据路径，因为标签以文件名方式读取，只需要添加文件夹路径即可
+修改配置文件后，python train.py config/lpr.yml开始训练
+建议单卡训练（多卡eval未修改），小的BatchSize对指标并无影响 测试
+评估指标 python test.py --task val --config lpr-d.yml --model path/to/your/model
+结果测试 python inference.py --task val --config lpr-d.yml --model path/to/your/model --path path/to/your/img
+
+pytorch_lightning 版本
+https://lightning.ai/docs/pytorch/stable/versioning.html#compatibility-matrix
+
+# 测试
+python detect_lpr.py --path E:/plate_recognition/CCPD2020/ccpd_green/crop/val
+
+# 检测
+python detect.py -m ./weights/mobilenet0.25_epoch_20_ccpd.pth -image E:/plate_recognition/test_data_20231019/1.jpg
+
+python detect_lpd.py -m ./retina_lpd/weights/mobilenet0.25_epoch_20_ccpd.pth -image E:/plate_recognition/test_data_20231019/1.jpg
+
+python detect_yolov5.py --weights yolov5/yolov5s.pt --half --source yolov5/PeopleWearingFaceMask.mp4 --imgsz 640 --device 0
+
+#识别
+python inference.py --task val --config config/lpr-0213.yml --model path/to/your/model --path path/to/your/img
+
+python inference.py --task val --config config/lpr-0213.yml --model workspace/lp_model_best.pth --path E:/plate_recognition/test_data_20231019/2.jpg
+
+python inference.py --task val --config config/lpr.yml --model workspace/lp_model_best_20231025_CBLPRD-330k+CCPD+gen_blue+green.ckpt --path E:/plate_recognition/CCPD2020/ccpd_green/crop/val
+
+
+python inference.py --task run --config config/lpr.yml --model workspace/lp_model_best_20231025_CBLPRD-330k+CCPD+gen_blue+green.ckpt --path E:/plate_recognition/CCPD2020/ccpd_green/crop/val
