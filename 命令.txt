@@ -1,3 +1,16 @@
+# onnx to tensorrt fp16
+trtexec --onnx=workspace/lpr_20231102_all_types.onnx --saveEngine=workspace/lpr_20231102_all_types_fp16.engine --fp16 --workspace=10240
+
+# onnx to tensorrt int8
+pip install colored polygraphy --extra-index-url https://pypi.ngc.nvidia.com
+# Convert the model, using the custom data loader script to supply calibration data, saving a calibration cache for future use
+polygraphy convert ./workspace/lpr_20231102_all_types.onnx --int8 --data-loader-script ./dataloader_for_calibration.py --calibration-cache ./workspace/lpr_calib.cache -o ./workspace/lpr_20231102_all_types_int8.engine
+# Rebuild the engine using the cache to skip calibration
+polygraphy convert ./workspace/lpr_20231102_all_types.onnx --int8 --calibration-cache ./workspace/lpr_calib.cache -o ./workspace/lpr_20231102_all_types_int8.engine
+
+
+
+
 修改训练的参数配置文件lpr.yml，一般修改保存路径、train和test数据路径，因为标签以文件名方式读取，只需要添加文件夹路径即可
 修改配置文件后，python train.py config/lpr.yml开始训练
 建议单卡训练（多卡eval未修改），小的BatchSize对指标并无影响 测试

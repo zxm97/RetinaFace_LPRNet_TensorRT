@@ -15,6 +15,7 @@
 import copy
 import json
 import os
+import time
 import warnings
 from typing import Any, Dict, List
 
@@ -52,14 +53,17 @@ class TrainingTask(LightningModule):
         return x
     @torch.no_grad()
     def inference(self, meta):
+        tic = time.time()
         prebs = self.forward(meta['img'])
+        torch.cuda.synchronize()
+        print('inference time:',time.time() - tic)
         preb_labels = list()
         for i in range(prebs.shape[0]):
             lpnum=''
             preb = prebs[i, :, :]
             preb_label = torch.argmax(preb,dim=1)
-            print()
-            print('predict before processing:', preb_label) ##############
+            # print()
+            # print('predict before processing:', preb_label) ##############
             no_repeat_blank_label = list()
             pre_c = preb_label[0]
             if pre_c != len(self.CHARS) - 1:
@@ -73,7 +77,7 @@ class TrainingTask(LightningModule):
                 no_repeat_blank_label.append(c)
                 pre_c = c
 
-            print('predict after processing:', no_repeat_blank_label) ###############
+            # print('predict after processing:', no_repeat_blank_label) ###############
 
             for idx in no_repeat_blank_label:
                 lpnum += self.CHARS[int(idx.item())]
@@ -105,18 +109,18 @@ class TrainingTask(LightningModule):
                 pre_c = c
             no_repeat_blank_label=torch.Tensor(no_repeat_blank_label).to(device)
             preb_labels.append(no_repeat_blank_label)
-            print(i)
+            # print(i)
 
-            my_label = labels[i*8: i*8+8]
-            my_target = ''
-            for ind in my_label:
-                my_target += self.CHARS[int(ind)]
-            print('target:', my_label)
-            print('target lpnum:', my_target)
+            # my_label = labels[i*8: i*8+8]
+            # my_target = ''
+            # for ind in my_label:
+            #     my_target += self.CHARS[int(ind)]
+            # print('target:', my_label)
+            # print('target lpnum:', my_target)
 
             # print('labels.shape:', labels.shape) # [1600]
             # print('prebs.shape:', prebs.shape) # [200, 18, 79]
-            print('predict:', no_repeat_blank_label)
+            # print('predict:', no_repeat_blank_label)
         preb={
             'preb_labels': preb_labels,
             'target_labels':  labels,
