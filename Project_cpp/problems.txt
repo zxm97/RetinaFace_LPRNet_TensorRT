@@ -1,0 +1,7 @@
+copy
+CUDA 11.x.props
+CUDA 11.x.targets
+CUDA 11.x.xml
+Nvda.Build.CudaTasks.v11.x.dll
+from C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.x\extras\visual_studio_integration\MSBuildExtensions
+to C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\BuildCustomizations

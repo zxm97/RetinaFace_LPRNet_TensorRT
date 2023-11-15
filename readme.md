@@ -1,41 +1,194 @@
-<!--
- * @Date: 2022-01-05 22:53:35
- * @Author: ChHanXiao
- * @Github: https://github.com/ChHanXiao
- * @LastEditors: ChHanXiao
- * @LastEditTime: 2022-03-02 21:51:43
- * @FilePath: /license-plate-recoginition/readme.md
--->
-### 车牌识别
 
-车牌识别部分，参考[LPRNet](https://github.com/sirius-ai/LPRNet_Pytorch)和[Multi-line license plate recognition](https://github.com/deeplearningshare/multi-line-plate-recognition)
+**[English](readme.md), [中文](readme_zh.md)**
 
-车牌数据生成，参考[fake_chs_lp](https://github.com/ufownl/fake_chs_lp)、[alpr_utils](https://github.com/ufownl/alpr_utils)
+## Plate type supported
 
-理论上该网络可以识别单双行，只要添加数据训练，当前训练数据均为生成数据
+Chinese license plate (single-line and double-line)
 
-数据来源
- - CCPD2019，CCPD2020，裁切矫正车牌，参考[prepare_ccpd.py](datasets/prepare_ccpd.py)
- - 生成数据，通过[gen_data.py](gen_data.py)生成数据集，每类车牌及细分类别的生成概率可通过配置文件[config_gen.py](data/config_gen.py)配置
- - 生成数据有使用贴图，可在`data/env_imgs`中添加背景素材
- - 车牌标签以文件名方式保存和读取，'日期'-'种类'-'号码'-'时间戳'，如 `20220122-green+b-藏AQ2580D-1642860498000912.jpg`
+## Environment
+### PC
+Windows 10
 
-训练
- - 修改训练的参数配置文件[lpr.yml](config/lpr.yml)，一般修改保存路径、train和test数据路径，因为标签以文件名方式读取，只需要添加文件夹路径即可
- - 修改配置文件后，`python train.py config/lpr.yml`开始训练
- - 建议单卡训练（多卡eval未修改），小的BatchSize对指标并无影响
-测试
- - 评估指标 `python test.py --task val --config lpr-d.yml --model path/to/your/model`
- - 结果测试 `python inference.py --task val --config lpr-d.yml --model path/to/your/model --path path/to/your/img`
+python 3.7.10
 
-支持车牌种类
- - 蓝色单层车牌
- - 黄色单层车牌
- - 绿色新能源车牌、民航车牌
- - 黑色单层车牌
- - 白色警牌、军牌、武警车牌
- - 黄色双层车牌
- - 绿色农用车牌
- - 白色双层军牌
+CUDA 11.7
 
-车牌检测参考：https://github.com/gm19900510/Pytorch_Retina_License_Plate
+cuDNN 8.6.0.163
+
+TensorRT 8.5.1.7
+
+OpenCV 4.6.0 (build from source)
+
+CMake 3.26.5
+
+Visual Studio 16 2019
+
+
+### Jetson Nano
+python 3.6.9
+
+Jetpack 4.6.2
+
+CUDA 10.2.89
+
+cuDNN 8.2.1.32
+
+TensorRT 8.2.1.8
+
+OpenCV 4.5.2 with GStreamer support
+
+## Requirements
+### PC
+albumentations==1.3.1
+
+imutils==0.5.4
+
+matplotlib==3.3.4
+
+numpy==1.21.6
+
+opencv_python==4.8.1.78
+
+opencv_python_headless==4.8.1.78
+
+Pillow==9.5.0
+
+pycuda==2021.1+cuda115
+
+pytorch_lightning==1.8.0
+
+PyYAML==5.4.1
+
+task==0.2.5
+
+termcolor==2.3.0
+
+torch==1.13.1+cu116
+
+torchvision==0.14.1+cu116
+
+### Jetson Nano
+albumentations==1.3.1
+
+imutils==0.5.4
+
+matplotlib==3.3.2
+
+numpy==1.16.1
+
+Pillow==10.1.0
+
+pycuda==2021.1
+
+pytorch_lightning==1.5.0
+
+PyYAML==6.0.1
+
+task==0.2.5
+
+termcolor==1.1.0
+
+torch==1.6.0a0+b31f58d
+
+torchvision==0.9.0a0+01dfa8e
+
+
+
+
+## How to use
+### Run PyTorch demo on PC:
+run demo_torch.py
+
+### Run TensorRT demo on PC (python):
+#### step 1
+clone the project and follow the instructions to build Retinaface trt engine:
+
+https://github.com/zxm97/Pytorch_Retina_License_Plate_trt
+#### step 2
+clone the project and follow the instructions to build LPRNet trt engine:
+
+https://github.com/zxm97/license-plate-recoginition_trt
+
+#### step 3
+run demo_trt.py / demo_trt_fpn_reduced.py / demo_trt_fpn_reduced_async.py
+
+ - demo_trt.py is for original RetinaFace model
+ - demo_trt_fpn_reduced.py is for the modified RetinaFace model (1 layer of FPN is reduced)
+ - demo_trt_fpn_reduced_async.py is for the modified RetinaFace model (1 layer of FPN is reduced). Speed up by dividing the task into threads.
+  
+### Run TensorRT demo on PC (C++):
+
+#### step 1
+clone the project and run gen_wts_for_tensorrtx.py to get weight map file:
+https://github.com/zxm97/Pytorch_Retina_License_Plate_trt
+#### step 2
+open CMake (GUI)
+
+set source code directory : xxx/Project_cpp
+
+set binaries directory : xxx/Project_cpp/build
+
+click Configure, Generate and Open Project
+
+#### step 3
+ select Release x64, build solution for decodeplugin, create xxx\Project_cpp\build\Release\decodeplugin.lib
+
+#### step 4
+build solution for retina_mnet_plate
+
+move the weight map file in step 1 to xxx\Project_cpp\build\Release
+
+open Windows PowerShell, run the following command to build RetinaFace trt engine:
+
+`./retina_mnet_plate.exe -s`
+
+#### step 5
+clone the project and follow the instructions to build LPRNet trt engine:
+
+https://github.com/zxm97/license-plate-recoginition_trt
+
+move LPRNet trt engine file to xxx\Project_cpp\build\Release
+
+#### step 6
+build solution for demo
+
+run the following command to detect and recognize plates on images:
+
+`./demo.exe -d`
+
+
+![img](result_cpp.jpg)
+
+### Run TensorRT demo on Jetson Nano (python):
+
+
+#### step 1
+clone the project and follow the instructions to build Retinaface trt engine (use the modified model with 1 FPN layer reduced):
+
+https://github.com/zxm97/Pytorch_Retina_License_Plate_trt
+#### step 2
+clone the project and follow the instructions to build LPRNet trt engine:
+
+https://github.com/zxm97/license-plate-recoginition_trt
+
+#### step 3
+run demo_trt_fpn_reduced_async.py
+
+ - Speed up by dividing the task into threads
+ - To lower CPU usage, use hardware acceleration for decoding.
+ - Up to 20 frames per second for a 1258 x 684 h.264 video
+
+
+## References
+
+https://github.com/gm19900510/Pytorch_Retina_License_Plate
+
+https://github.com/ChHanXiao/license-plate-recoginition
+
+https://github.com/1996scarlet/faster-mobile-retinaface
+
+https://github.com/wang-xinyu/tensorrtx
+
+https://github.com/SunlifeV/CBLPRD-330k
+
+https://github.com/yxgong0/CRPD
