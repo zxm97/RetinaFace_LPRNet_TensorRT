@@ -5,11 +5,11 @@
 
 ### 检测
 
-目前训练数据大部分是蓝牌和单层绿牌，加上少量单层黄牌、双层黄牌、单层白牌，对蓝牌和单层绿牌之外的车牌目标检测和关键点检测不一定准确。
+目前训练数据大部分是蓝牌和单层绿牌，加上少量单层黄牌、双层黄牌、单层白牌，对蓝牌和单层绿牌之外的车牌目标检测和关键点检测不一定准确。自己训练参考 <https://github.com/gm19900510/Pytorch_Retina_License_Plate>。
 
 ### 识别
 
-训练数据包括 CCPD2019、CCPD2020、CBLPRD-330k 和用代码合成的车牌 (合成参考<https://github.com/ChHanXiao/license-plate-recoginition>)。
+训练数据包括 CCPD2019、CCPD2020、CBLPRD-330k 和用代码合成的车牌 (合成和自己训练参考<https://github.com/ChHanXiao/license-plate-recoginition>)。
 
 种类包含蓝色单层车牌，黄色单层车牌，绿色新能源车牌，民航车牌，黑色单层车牌，白色警牌、军牌、武警车牌，
 黄色双层车牌，绿色农用车牌，白色双层军牌。
@@ -132,6 +132,9 @@ https://github.com/zxm97/license-plate-recoginition_trt
 
 https://github.com/zxm97/Pytorch_Retina_License_Plate_trt
 #### 第 2 步
+
+打开 xxx\Project_cpp\CMakeLists.txt，修改 OpenCV_DIR 和 TRT_DIR。
+
 打开 CMake (GUI)
 
 把 source code directory 设为 xxx/Project_cpp
