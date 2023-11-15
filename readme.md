@@ -122,6 +122,9 @@ run demo_trt.py / demo_trt_fpn_reduced.py / demo_trt_fpn_reduced_async.py
 clone the project and run gen_wts_for_tensorrtx.py to get weight map file:
 https://github.com/zxm97/Pytorch_Retina_License_Plate_trt
 #### step 2
+
+open xxx\Project_cpp\CMakeLists.txt，modify OpenCV_DIR and TRT_DIR。
+
 open CMake (GUI)
 
 set source code directory : xxx/Project_cpp
