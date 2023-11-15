@@ -1,16 +1,19 @@
-# import cv2
-# pipeline = "rtspsrc location=\"rtsp://login:password@host:port/\" ! rtph264depay ! h264parse ! omxh264dec ! nvvidconv ! video/x-raw, format=(string)BGRx! videoconvert ! appsink"
-# capture = cv2.VideoCaputure(pipeline, cv2.CAP_GSTREAMER)
+# --------------------------------------------------------
+# Camera Recorder for Tegra X2/X1
 #
-# while capture.isOpened():
-#     res, frame = capture.read()
-#     cv2.imshow("Video", frame)
-#     key = cv2.waitKey(1) & 0xFF
-#     if key == ord("q"):
-#         break
-# capture.release()
-# cv2.destroyAllWindows()
-
+# This program captures video from IP CAM, USB webcam,
+# or the Tegra onboard camera, adds some watermark on
+# the video frames and then records it into a TS file.
+# The code demonstrates how to use cv2.VideoWriter()
+# while taking advantage of TX2/TX1's H.264 H/W encoder
+# capabilities.
+#
+# Refer to the following blog post for how to set up
+# and run the code:
+#   https://jkjung-avt.github.io/tx2-camera-recorder/
+#
+# Written by JK Jung <jkjung13@gmail.com>
+# --------------------------------------------------------
 
 
 
