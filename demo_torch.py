@@ -9,15 +9,9 @@ from detect_lpd import LPDET
 from detect_lpr import LPREC, cv2ImgAddText
 import torch
 
-
-
-
-
-
 if __name__ == '__main__':
     det = LPDET()
     rec = LPREC()
-
 
     # ----------------------------------------------------------
     if True:
@@ -65,7 +59,7 @@ if __name__ == '__main__':
     #
 
     # ----------------------------------------------------------------
-    if True:
+    if False:
         total_time = 0
         for i in range(100):
             time_start = time.time()
@@ -84,8 +78,7 @@ if __name__ == '__main__':
                     print(result)
             # cv2.imshow('frame_full', frame_full)
             # cv2.waitKey(0)
-            # if cv2.waitKey(1000000) & 0xFF == ord('q'):
-            #     cv2.destroyAllWindows()+
+
             time_used = time.time()-time_start
             print('fps=', 1/time_used)
             total_time += time_used
