@@ -1,4 +1,4 @@
-save_dir: workspace/lp1024
+save_dir: workspace/lp1102
 input_size: [96,48] #[w,h]
 mean: [127.5,127.5,127.5]
 std: [0.0078125,0.0078125,0.0078125]
@@ -26,6 +26,9 @@ data:
     - E:/plate_recognition/CCPD2020/ccpd_green/crop/test
     - E:/plate_recognition/CCPD_gen/blue
     - E:/plate_recognition/CCPD_gen/green
+    - E:/plate_recognition/CCPD_gen/yellow
+    - E:/plate_recognition/CCPD_gen/white
+    - E:/plate_recognition/CCPD_gen/airport
     - E:/plate_recognition/CBLPRD-330k_v1/train
 #    - E:/plate_recognition/CBLPRD-330k_v1/train_blue
 #    - E:/plate_recognition/CBLPRD-330k_v1/train_green
@@ -34,15 +37,17 @@ data:
     img_dir:
     # - datasets/CCPD2019/crop/test
     # - datasets/CCPD2020/crop/test
-#    - E:/plate_recognition/CCPD2019/crop/val
+    - E:/plate_recognition/CCPD2019/crop/val
     - E:/plate_recognition/CCPD2020/ccpd_green/crop/val
-#    - E:/plate_recognition/CBLPRD-330k_v1/val_blue
-#    - E:/plate_recognition/CBLPRD-330k_v1/val_green
-#    - E:/plate_recognition/CBLPRD-330k_v1/val
+    - E:/plate_recognition/CBLPRD-330k_v1/val
+    - E:/plate_recognition/CCPD_gen/yellow_val
+    - E:/plate_recognition/CCPD_gen/white_val
+    - E:/plate_recognition/CCPD_gen/airport_val
+
 device:
   gpu_ids: [0] # Set like [0, 1, 2, 3] if you have multi-GPUs
   workers_per_gpu: 8
-  batchsize_per_gpu: 200
+  batchsize_per_gpu: 100
 schedule:
   # resume:
   # load_model: workspace/lp0123/model_best/lp_model_best.pth
