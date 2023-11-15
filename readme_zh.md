@@ -9,7 +9,9 @@
 
 ### 识别
 
-训练数据包括 CCPD2019、CCPD2020、CBLPRD-330k 和用代码合成的车牌 (合成参考 https://github.com/ChHanXiao/license-plate-recoginition)。种类包含蓝色单层车牌，黄色单层车牌，绿色新能源车牌，民航车牌，黑色单层车牌，白色警牌、军牌、武警车牌，
+训练数据包括 CCPD2019、CCPD2020、CBLPRD-330k 和用代码合成的车牌 (合成参考 https://github.com/ChHanXiao/license-plate-recoginition)。
+
+种类包含蓝色单层车牌，黄色单层车牌，绿色新能源车牌，民航车牌，黑色单层车牌，白色警牌、军牌、武警车牌，
 黄色双层车牌，绿色农用车牌，白色双层军牌。
 
 ## 环境
