@@ -175,7 +175,7 @@ clone the project and follow the instructions to build LPRNet trt engine:
 https://github.com/zxm97/license-plate-recoginition_trt
 
 #### step 3
-run demo_trt_fpn_reduced_async.py
+run demo_trt_jetson_fpn_reduced_async.py
 
  - Speed up by dividing the task into threads
  - To lower CPU usage, use hardware acceleration for decoding.

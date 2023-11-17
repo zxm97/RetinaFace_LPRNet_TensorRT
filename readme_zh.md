@@ -185,7 +185,7 @@ https://github.com/zxm97/Pytorch_Retina_License_Plate_trt
 https://github.com/zxm97/license-plate-recoginition_trt
 
 #### 第 3 步
-运行 demo_trt_fpn_reduced_async.py
+运行 demo_trt_jetson_fpn_reduced_async.py
 
  - 把图片读取或视频解码和检测的预处理部分放在一个线程，把检测模型的推理、检测模型后处理、车牌裁剪和矫正、识别模型的预处理、识别模型的推理、识别模型的后处理放在另一个线程，提高吞吐量
  - 用 Jetson Nano 的硬解码器来解码视频，降低 cpu 使用率 (Jetson Nano 的 A57 性能太弱)
