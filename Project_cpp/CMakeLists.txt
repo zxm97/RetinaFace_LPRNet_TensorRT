@@ -86,6 +86,11 @@ target_link_libraries(demo cudart)
 target_link_libraries(demo decodeplugin)
 target_link_libraries(demo ${OpenCV_LIBRARIES})
 
+add_executable(demo_mt ${PROJECT_SOURCE_DIR}/demo_mt.cpp)
+target_link_libraries(demo_mt nvinfer)
+target_link_libraries(demo_mt cudart)
+target_link_libraries(demo_mt decodeplugin)
+target_link_libraries(demo_mt ${OpenCV_LIBRARIES})
 
 # add_definitions(-O2 -pthread)
 
